@@ -33,6 +33,7 @@ const PickupsPage = () => {
 
   useEffect(() => { fetchPickups(); }, [filter, page]);
 
+
   const cancel = async (id) => {
     if (!window.confirm('Cancel this pickup?')) return;
     try {

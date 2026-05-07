@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../utils/api';
-import toast from 'react-hot-toast';
-
 const StatCard = ({ icon, label, value, sub, color }) => (
+
   <div className="stat-card" style={{ flex: 1, minWidth: 180 }}>
     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
       <div>
@@ -30,7 +29,8 @@ const DashboardPage = () => {
   const completed = pickups.filter(p => p.status === 'completed').length;
   const pending = pickups.filter(p => ['pending','assigned','in_progress'].includes(p.status)).length;
 
-  const statusColor = { pending: '#fbbf24', assigned: '#22d3ee', in_progress: '#c084fc', completed: '#4ade80', cancelled: '#f87171' };
+
+
 
   return (
     <div className="fade-in">

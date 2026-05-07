@@ -9,7 +9,8 @@ import { getUnreadCount } from '../utils/notifications';
 const SchedulePage = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
-  const [zones, setZones] = useState([]);
+  const [zones] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState({});
   const [wastePhotos, setWastePhotos] = useState({});
@@ -22,7 +23,8 @@ const SchedulePage = () => {
 
   useEffect(() => {
     Promise.all([API.get('/categories'), API.get('/zones')])
-      .then(([cats, zns]) => { setCategories(cats.data.data); setZones(zns.data.data); })
+      .then(([cats]) => { setCategories(cats.data.data); })
+
       .catch(() => {});
   }, []);
 

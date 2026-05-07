@@ -23,9 +23,12 @@ const AdminUsersPage = () => {
     finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchUsers(); }, [page, role]);
+  useEffect(() => {
+    fetchUsers();
+  }, [page, role]);
 
   const toggleUser = async (id, name) => {
+
     try {
       await API.put(`/admin/users/${id}/toggle`);
       toast.success(`User ${name} status toggled`);

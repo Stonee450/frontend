@@ -12,7 +12,8 @@ const AdminDashboard = () => {
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', padding: 80 }}><div className="spinner" /></div>;
   if (!data) return null;
 
-  const { stats, statusBreakdown, wasteByCategory, recentPickups, dailyTrend } = data;
+  const { stats, statusBreakdown, wasteByCategory, recentPickups } = data;
+
 
   const statCards = [
     { icon: '👥', label: 'Total Users', value: stats.total_users, color: '#22d3ee' },

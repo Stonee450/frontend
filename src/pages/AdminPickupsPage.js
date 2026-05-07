@@ -18,9 +18,12 @@ const AdminPickupsPage = () => {
     finally { setLoading(false); }
   };
 
-  useEffect(() => { fetch(); }, [status]);
+  useEffect(() => {
+    fetch();
+  }, [status]);
 
   const statFilters = ['', 'pending', 'assigned', 'in_progress', 'completed', 'cancelled'];
+
 
   return (
     <div className="fade-in">
