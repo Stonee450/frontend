@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import API from '../utils/api';
 import toast from 'react-hot-toast';
 
@@ -10,7 +10,7 @@ const AdminUsersPage = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ page, limit: 15 });
@@ -21,11 +21,11 @@ const AdminUsersPage = () => {
       setTotal(data.pagination?.total || 0);
     } catch { toast.error('Failed to load users'); }
     finally { setLoading(false); }
-  };
+  }, [page, role, search]);
 
   useEffect(() => {
     fetchUsers();
-  }, [page, role]);
+  }, [fetchUsers]);
 
   const toggleUser = async (id, name) => {
 

@@ -9,7 +9,6 @@ import { getUnreadCount } from '../utils/notifications';
 const SchedulePage = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
-  const [zones] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState({});

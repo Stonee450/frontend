@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import API from '../utils/api';
 import toast from 'react-hot-toast';
 
@@ -7,7 +7,7 @@ const AdminPickupsPage = () => {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState('');
 
-  const fetch = async () => {
+  const fetchPickups = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ limit: 50 });
@@ -16,11 +16,11 @@ const AdminPickupsPage = () => {
       setPickups(data.data || []);
     } catch { toast.error('Failed'); }
     finally { setLoading(false); }
-  };
+  }, [status]);
 
   useEffect(() => {
-    fetch();
-  }, [status]);
+    fetchPickups();
+  }, [fetchPickups]);
 
   const statFilters = ['', 'pending', 'assigned', 'in_progress', 'completed', 'cancelled'];
 

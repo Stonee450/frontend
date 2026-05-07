@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import toast from 'react-hot-toast';
@@ -11,7 +11,7 @@ const PickupsPage = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const fetchPickups = async () => {
+  const fetchPickups = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({ page, limit: 10 });
@@ -29,9 +29,9 @@ const PickupsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filter, page]);
 
-  useEffect(() => { fetchPickups(); }, [filter, page]);
+  useEffect(() => { fetchPickups(); }, [fetchPickups]);
 
 
   const cancel = async (id) => {
