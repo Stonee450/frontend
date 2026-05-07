@@ -19,8 +19,13 @@ const PickupsPage = () => {
       const { data } = await API.get(`/pickups/my?${params}`);
       setPickups(data.data || []);
       setTotal(data.pagination?.total || 0);
-    } catch {
-      toast.error('Failed to load pickups');
+    } catch (err) {
+      // Surface the real backend/network error
+      // (helps identify wrong endpoint vs auth vs validation vs server error)
+      console.error('Failed to load pickups:', err);
+      const status = err?.response?.status;
+      const message = err?.response?.data?.message || err?.message;
+      toast.error(`Failed to load pickups${status ? ` (HTTP ${status})` : ''}${message ? `: ${message}` : ''}`);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../utils/api';
 import toast from 'react-hot-toast';
+import { getUnreadCount } from '../utils/notifications';
+
+
 
 const SchedulePage = () => {
   const navigate = useNavigate();
@@ -54,10 +57,18 @@ const SchedulePage = () => {
       const waste_items = Object.values(selectedCategories);
       await API.post('/pickups', { ...form, waste_items });
       toast.success('Pickup scheduled successfully! 🎉');
+
+      // Ensure admin/collector notification badge updates after a new pickup is created.
+      // Layout badge reads /notifications, so we just pre-warm it by refetching.
+      try {
+        await getUnreadCount();
+      } catch {}
+
       navigate('/pickups');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to schedule pickup');
     } finally {
+
       setLoading(false);
     }
   };
