@@ -38,10 +38,22 @@ const CollectorQueuePage = () => {
     setCompleting(pickup.id);
     try {
       const items = pickup.waste_items || [];
-      const waste_items = items.map(item => ({
-        category_id: item.category_id || item.id,
-        actual_weight_kg: parseFloat(weights[`${pickup.id}_${item.category}`] || item.estimated_kg || 1)
-      }));
+      // IMPORTANT:
+      // - Bind parameters must not contain undefined.
+      // - To pass SQL NULL, use JS null (not undefined).
+      const waste_items = items.map(item => {
+        const key = `${pickup.id}_${item.category}`;
+        const category_id = item.category_id ?? item.id;
+        const rawWeight = weights[key];
+        const parsedWeight = rawWeight === undefined || rawWeight === ''
+          ? (item.estimated_kg ?? null)
+          : Number(rawWeight);
+
+        return {
+          category_id: category_id ?? null,
+          actual_weight_kg: parsedWeight === undefined ? null : parsedWeight,
+        };
+      });
       const { data } = await API.put(`/pickups/${pickup.id}/complete`, { waste_items });
       toast.success(`✅ Pickup complete! User earned ${data.data.total_points} points`);
       fetchQueue();
